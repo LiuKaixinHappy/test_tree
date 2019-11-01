@@ -102,9 +102,19 @@ const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
     q.push(tree);
     while (q.length !== 0) {
         const curNode = q.shift();
-        if (curNode.id === father_next_brother_id) {
+        if (curNode.id === father_next_brother_id && curNode.children.every(item => item.type === 1)) {
             return curNode;
+        } else if (curNode.id === father_next_brother_id && curNode.children.some(item => item.type === 0)){
+            return curNode.children[0];
         }
+        // fn = (node,father_id) => {
+        //     if (node.id === father_id && node.children.every(item => item.type === 1)) {
+        //         return node;
+        //     }else if (node.id === father_id && node.children.some(item => item.type === 0)){
+        //         fn(node.children[0],father_id)
+        //     }
+        // }
+        // fn(curNode,father_next_brother_id);
         curNode.children.forEach(child => q.push(child));
     }
     return undefined;
@@ -229,16 +239,18 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                     }
                     father.children = new_children;
                     each.children.forEach((item, index) => father_brother.children.splice(index, 0, item));
-                } else if (each.father.next_brother && each.father.next_brother.children[0].type === 0 && each.father.next_brother.children[0].children.every(item => item.type === 1)) {
-                    each.father.forEach(item => {
-                        if (item.id !== each.id) {
-                            // continue;
-                            new_children.push(item);
-                        }
-                    })
-                    father.children = new_children;
-                    each.children.forEach((item, index) => each.father.next_brother.children.splice(index, 0, item));
-                } else {
+                } 
+                // else if (each.father.next_brother && each.father.next_brother.children[0].type === 0 && each.father.next_brother.children[0].children.every(item => item.type === 1)) {
+                //     each.father.forEach(item => {
+                //         if (item.id !== each.id) {
+                //             // continue;
+                //             new_children.push(item);
+                //         }
+                //     })
+                //     father.children = new_children;
+                //     each.children.forEach((item, index) => each.father.next_brother.children.splice(index, 0, item));
+                // }
+                 else {
                     const arr = [];
                     for (const c of father.children) {
                         if (c.id !== each.id) {
