@@ -1986,7 +1986,7 @@ describe('main()', () => {
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
 
-  it('case 4 upper', () => {
+  it('case 4', () => {
     const question_tree_structure = {
       "id": "0",
       "type": 0,
