@@ -171,7 +171,6 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
         }
         father.children = new_children;
       } else {
-          console.log('has brother----------',JSON.stringify(each))
         if (each.next_brother) {
           for (const child of father.children) {
             if (child.id === each.id) {
@@ -184,6 +183,8 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
               new_children.push(child);
             }
           }
+        //   console.log('new brother*************',JSON.stringify(new_children))
+          console.log('who is father*************',JSON.stringify(father))
           father.children = new_children;
         } else {
           const arr = [];

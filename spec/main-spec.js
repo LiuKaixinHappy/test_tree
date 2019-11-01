@@ -971,7 +971,7 @@ describe('main()', () => {
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
 
-  it('根节点+2个中间重要步骤+思路中两个重要步骤，应该生成思路+思路+思路', () => {
+  it('2个底层思路中去掉上方顶层思路中的重要步骤，应该合并为一个子思路', () => {
     const question_tree_structure = {
       "id": "0",
       "type": 0,
@@ -1087,23 +1087,30 @@ describe('main()', () => {
           "order": 1,
           "children": [
             {
-              "id": "1",
-              "type": 1,
+              "id": "9",
+              "type": 0,
               "order": 1,
-              "children": []
-            },
-            {
-              "id": "2",
-              "type": 1,
-              "order": 2,
-              "children": []
-            },
-            {
-              "id": "3",
-              "type": 1,
-              "order": 3,
-              "children": []
-            },
+              "children": [
+                {
+                  "id": "1",
+                  "type": 1,
+                  "order": 1,
+                  "children": []
+                },
+                {
+                  "id": "2",
+                  "type": 1,
+                  "order": 2,
+                  "children": []
+                },
+                {
+                  "id": "3",
+                  "type": 1,
+                  "order": 3,
+                  "children": []
+                },
+              ]
+            }
           ]
         },
         {
