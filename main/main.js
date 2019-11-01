@@ -91,10 +91,10 @@ const find_father_in_tree = (node_id, tree) => {
 };
 
 const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
-    let father_next_brother_id = undefined;
-    for(let item of new_node_set){
+    let father_next_brother_id = null;
+    for (let item of new_node_set) {
         if (item.children_ids.includes(node_id)) {
-            father_next_brother_id = item.next_brother.id;
+            father_next_brother_id = item.next_brother ? item.next_brother.id : null;
             break;
         }
     }
@@ -104,7 +104,7 @@ const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
         const curNode = q.shift();
         if (curNode.id === father_next_brother_id && curNode.children.every(item => item.type === 1)) {
             return curNode;
-        } else if (curNode.id === father_next_brother_id && curNode.children.some(item => item.type === 0)){
+        } else if (curNode.id === father_next_brother_id && curNode.children.some(item => item.type === 0)) {
             return curNode.children[0];
         }
         // fn = (node,father_id) => {
@@ -229,12 +229,19 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                         }
                     }
                     father.children = new_children;
-                } else if (!find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure)){
+                } else if (!find_father_next_brother_in_tree(each.id, new_node_set, question_tree_structure)) {
+                    for (const child of father.children) {
+                        if (child.id !== each.id) {
+                            // continue;
+                            new_children.push(child);
+                        }
+                    }
+                    father.children = new_children;
                     each.children.forEach(item => {
                         question_tree_structure.children.push(item);
                     })
-                } else if (find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure).children.every(item => item.type === 1)) {
-                    const father_brother = find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure);
+                } else if (find_father_next_brother_in_tree(each.id, new_node_set, question_tree_structure).children.every(item => item.type === 1)) {
+                    const father_brother = find_father_next_brother_in_tree(each.id, new_node_set, question_tree_structure);
                     for (const child of father.children) {
                         if (child.id !== each.id) {
                             // continue;
@@ -243,7 +250,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                     }
                     father.children = new_children;
                     each.children.forEach((item, index) => father_brother.children.splice(index, 0, item));
-                } 
+                }
                 // else if (each.father.next_brother && each.father.next_brother.children[0].type === 0 && each.father.next_brother.children[0].children.every(item => item.type === 1)) {
                 //     each.father.forEach(item => {
                 //         if (item.id !== each.id) {
@@ -254,7 +261,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                 //     father.children = new_children;
                 //     each.children.forEach((item, index) => each.father.next_brother.children.splice(index, 0, item));
                 // }
-                 else {
+                else {
                     const arr = [];
                     for (const c of father.children) {
                         if (c.id !== each.id) {
