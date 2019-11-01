@@ -1004,7 +1004,7 @@ describe('main()', () => {
         {
           "id": "14",
           "type": 0,
-          "order": 2,
+          "order": 3,
           "children": [{
             "id": "5",
             "type": 1,
