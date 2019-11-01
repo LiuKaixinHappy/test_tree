@@ -229,6 +229,10 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                         }
                     }
                     father.children = new_children;
+                } else if (!find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure)){
+                    each.children.forEach(item => {
+                        question_tree_structure.children.push(item);
+                    })
                 } else if (find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure).children.every(item => item.type === 1)) {
                     const father_brother = find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure);
                     for (const child of father.children) {
