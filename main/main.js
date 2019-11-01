@@ -22,7 +22,7 @@ const get_new_node_set = (question_tree_structure, step_teach_info) => {
                 children_ids: child.children.map(item => item.id),
                 children: child.children,
                 children_type: child.children.length <= 0 ? null : (child.children.every(item => item.type === 1) ? 1 : (child.children.every(item => item.type === 0) ? 0 : 2)),
-                important_children_ids: child.children.filter(item => item.type === 1 && question.step_teach_info[item.id].is_important).map(item => item.id),
+                important_children_ids: child.children.filter(item => item.type === 1 && step_teach_info[item.id].is_important).map(item => item.id),
                 id: child.id,
                 type: child.type,
                 is_only_child: curNode.children.length <= 1,
@@ -68,38 +68,6 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
     }
     console.log('*******************************', JSON.stringify(groups));
     return groups;
-    // return [{
-    //     "id": "6",
-    //     "type": 0,
-    //     "order": 1,
-    //     "children": [
-    //         {
-    //             "id": "1",
-    //             "type": 1,
-    //             "order": 2,
-    //             "children": []
-    //         }, {
-    //             "id": "2",
-    //             "type": 1,
-    //             "order": 3,
-    //             "children": []
-    //         }, {
-    //             "id": "3",
-    //             "type": 1,
-    //             "order": 3,
-    //             "children": []
-    //         }]
-    // },{
-    //     "id": "4",
-    //     "type": 1,
-    //     "order": 2,
-    //     "children": []
-    // },{
-    //     "id": "5",
-    //     "type": 1,
-    //     "order": 3,
-    //     "children": []
-    // }];
 };
 
 const create_a_node_with_children = (new_children, new_order, max_id) => {
