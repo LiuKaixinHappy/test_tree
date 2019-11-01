@@ -1,4 +1,4 @@
-const get_new_node_set = (question_tree_structure, step_teach_info) =>{
+const get_new_node_set = (question_tree_structure, step_teach_info) => {
     const new_node_set = [];
     const q = [];
     q.push(question_tree_structure);
@@ -36,6 +36,7 @@ const get_new_node_set = (question_tree_structure, step_teach_info) =>{
 };
 
 const divide_children_by_important_step = (children_ids, important_children_ids, children, max_id) => {
+    console.log('----------------------', important_children_ids);
     if (important_children_ids === children_ids[children_ids.length - 1]) {
         return children;
     }
@@ -44,21 +45,29 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
     let tmp_arr = [];
     let tmp_arr_order = 1;
     children.forEach((item) => {
-        item.order = tmp_arr_order;
-        tmp_arr_order += 1;
-        tmp_arr.push(item);
-        if (important_children_ids.includes(item.id)) {
-            groups.push(create_a_node_with_children(tmp_arr, group_order, max_id));
-            tmp_arr = [];
-            tmp_arr_order = 1;
-            group_order += 1;
+        if (groups.length >= important_children_ids.length) {
+            groups.push(item);
+        } else {
+            item.order = tmp_arr_order;
+            tmp_arr_order += 1;
+            tmp_arr.push(item);
+            if (important_children_ids.includes(item.id)) {
+                groups.push(create_a_node_with_children(tmp_arr, group_order, max_id));
+                max_id += 1;
+                tmp_arr = [];
+                tmp_arr_order = 1;
+                group_order += 1;
+            }
         }
     });
-    tmp_arr.forEach((item) => {
-        item.order = group_order;
-        groups.push(item);
-        group_order += 1;
-    });
+    if (groups.length === 0) {
+        tmp_arr.forEach((item) => {
+            item.order = group_order;
+            groups.push(item);
+            group_order += 1;
+        });
+    }
+    console.log('*******************************', JSON.stringify(groups));
     return groups;
     // return [{
     //     "id": "6",
@@ -95,12 +104,13 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
 };
 
 const create_a_node_with_children = (new_children, new_order, max_id) => {
-    return {
+    const node = {
         type: 0,
         id: max_id.toString(),
         order: new_order,
         children: new_children,
-    };
+    }
+    return node;
 };
 
 const find_father_in_tree = (node_id, tree) => {
@@ -146,7 +156,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                     tmp_arr.push(child);
                     sub_order += 1;
                     if (step_teach_info[child.id].is_important) {
-                        new_children.push(create_a_node_with_children(tmp_arr, order));
+                        new_children.push(create_a_node_with_children(tmp_arr, order, max_structure_id));
                         created_thought_ids.push(max_structure_id);
                         order += 1;
                         tmp_arr = [];
@@ -222,20 +232,20 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                     "children": [],
                     "title": "步骤1"
                 },
-                    {
-                        "id": "2",
-                        "type": 1,
-                        "order": 2,
-                        "children": [],
-                        "title": "步骤2"
-                    },
-                    {
-                        "id": "3",
-                        "type": 1,
-                        "order": 3,
-                        "children": [],
-                        "title": "步骤3"
-                    }]
+                {
+                    "id": "2",
+                    "type": 1,
+                    "order": 2,
+                    "children": [],
+                    "title": "步骤2"
+                },
+                {
+                    "id": "3",
+                    "type": 1,
+                    "order": 3,
+                    "children": [],
+                    "title": "步骤3"
+                }]
             },
             {
                 "id": "4",
@@ -255,4 +265,4 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
     };
 };
 
-module.exports = {main, divide_children_by_important_step};
+module.exports = { main, divide_children_by_important_step };
