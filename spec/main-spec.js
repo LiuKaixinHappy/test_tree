@@ -10,8 +10,8 @@ describe('main()', () => {
     const important_children_ids = ["3"];
     const children = [
       {
-        "type": 1,
         "id": "1",
+        "type": 1,
         "order": 1,
         "children": []
       },
@@ -49,12 +49,12 @@ describe('main()', () => {
           {
             "id": "1",
             "type": 1,
-            "order": 2,
+            "order": 1,
             "children": []
           }, {
             "id": "2",
             "type": 1,
-            "order": 3,
+            "order": 2,
             "children": []
           }, {
             "id": "3",
@@ -79,13 +79,13 @@ describe('main()', () => {
   });
 
   it('测试divide_children_by_important_step------2', () => {
-    const max_id = 7;
+    const max_id = 6;
     const children_ids = ["1", "2", "3", "4", "5"];
     const important_children_ids = ["3", "5"];
     const children = [
       {
-        "type": 1,
         "id": "1",
+        "type": 1,
         "order": 1,
         "children": []
       },
@@ -123,12 +123,12 @@ describe('main()', () => {
           {
             "id": "1",
             "type": 1,
-            "order": 2,
+            "order": 1,
             "children": []
           }, {
             "id": "2",
             "type": 1,
-            "order": 3,
+            "order": 2,
             "children": []
           }, {
             "id": "3",
@@ -140,17 +140,17 @@ describe('main()', () => {
       {
         "id": "7",
         "type": 0,
-        "order": 1,
+        "order": 2,
         "children": [{
           "id": "4",
           "type": 1,
-          "order": 2,
+          "order": 1,
           "children": []
         },
           {
             "id": "5",
             "type": 1,
-            "order": 3,
+            "order": 2,
             "children": []
           }]
       }]);
@@ -159,13 +159,13 @@ describe('main()', () => {
   });
 
   it('测试divide_children_by_important_step------3', () => {
-    const max_id = 7;
+    const max_id = 6;
     const children_ids = ["1", "2", "3", "4", "5"];
     const important_children_ids = ["3", "4"];
     const children = [
       {
-        "type": 1,
         "id": "1",
+        "type": 1,
         "order": 1,
         "children": []
       },
@@ -203,12 +203,12 @@ describe('main()', () => {
           {
             "id": "1",
             "type": 1,
-            "order": 2,
+            "order": 1,
             "children": []
           }, {
             "id": "2",
             "type": 1,
-            "order": 3,
+            "order": 2,
             "children": []
           }, {
             "id": "3",
@@ -220,11 +220,11 @@ describe('main()', () => {
       {
         "id": "7",
         "type": 0,
-        "order": 1,
+        "order": 2,
         "children": [{
           "id": "4",
           "type": 1,
-          "order": 2,
+          "order": 1,
           "children": []
         }]
       },

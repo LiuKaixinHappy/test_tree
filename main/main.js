@@ -47,6 +47,8 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
     children.forEach((item) => {
         if (groups.length >= important_children_ids.length) {
             groups.push(item);
+            item.order = group_order;
+            group_order += 1;
         } else {
             item.order = tmp_arr_order;
             tmp_arr_order += 1;
@@ -105,8 +107,8 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
 
 const create_a_node_with_children = (new_children, new_order, max_id) => {
     const node = {
-        type: 0,
         id: max_id.toString(),
+        type: 0,
         order: new_order,
         children: new_children,
     }
