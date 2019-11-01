@@ -1,38 +1,38 @@
 const get_new_node_set = (question_tree_structure, step_teach_info) => {
-  const new_node_set = [];
-  const q = [];
-  q.push(question_tree_structure);
-  new_node_set.push({
-    father: null,
-    children_ids: question_tree_structure.children.map(item => item.id),
-    children: question_tree_structure.children,
-    children_type: question_tree_structure.children.length <= 0 ? null : (question_tree_structure.children.every(item => item.type === 1) ? 1 : (question_tree_structure.children.every(item => item.type === 0) ? 0 : 2)),
-    important_children_ids: question_tree_structure.children.filter(item => item.type === 1 && step_teach_info[item.id].is_important).map(item => item.id),
-    id: question_tree_structure.id,
-    type: question_tree_structure.type,
-    is_only_child: false,
-    next_brother: null,
-  });
-  while (q.length !== 0) {
-    const curNode = q.shift();
-    curNode.children.forEach((child, index) => {
-      // 1-step 0-thought 2-hybrid null
-      const new_child_node = {
-        father: curNode,
-        children_ids: child.children.map(item => item.id),
-        children: child.children,
-        children_type: child.children.length <= 0 ? null : (child.children.every(item => item.type === 1) ? 1 : (child.children.every(item => item.type === 0) ? 0 : 2)),
-        important_children_ids: child.children.filter(item => item.type === 1 && step_teach_info[item.id].is_important).map(item => item.id),
-        id: child.id,
-        type: child.type,
-        is_only_child: curNode.children.length <= 1,
-        next_brother: curNode[index + 1] ? curNode[index + 1] : null,
-      };
-      new_node_set.push(new_child_node);
-      q.push(child);
+    const new_node_set = [];
+    const q = [];
+    q.push(question_tree_structure);
+    new_node_set.push({
+        father: null,
+        children_ids: question_tree_structure.children.map(item => item.id),
+        children: question_tree_structure.children,
+        children_type: question_tree_structure.children.length <= 0 ? null : (question_tree_structure.children.every(item => item.type === 1) ? 1 : (question_tree_structure.children.every(item => item.type === 0) ? 0 : 2)),
+        important_children_ids: question_tree_structure.children.filter(item => item.type === 1 && step_teach_info[item.id].is_important).map(item => item.id),
+        id: question_tree_structure.id,
+        type: question_tree_structure.type,
+        is_only_child: false,
+        next_brother: null,
     });
-  }
-  return new_node_set;
+    while (q.length !== 0) {
+        const curNode = q.shift();
+        curNode.children.forEach((child, index) => {
+            // 1-step 0-thought 2-hybrid null
+            const new_child_node = {
+                father: curNode,
+                children_ids: child.children.map(item => item.id),
+                children: child.children,
+                children_type: child.children.length <= 0 ? null : (child.children.every(item => item.type === 1) ? 1 : (child.children.every(item => item.type === 0) ? 0 : 2)),
+                important_children_ids: child.children.filter(item => item.type === 1 && question.step_teach_info[item.id].is_important).map(item => item.id),
+                id: child.id,
+                type: child.type,
+                is_only_child: curNode.children.length <= 1,
+                next_brother: curNode[index + 1] ? curNode[index + 1] : null,
+            };
+            new_node_set.push(new_child_node);
+            q.push(child);
+        });
+    }
+    return new_node_set;
 };
 
 const divide_children_by_important_step = (children_ids, important_children_ids, children, max_id) => {
@@ -44,6 +44,8 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
     children.forEach((item) => {
         if (groups.length >= important_children_ids.length) {
             groups.push(item);
+            item.order = group_order;
+            group_order += 1;
         } else {
             item.order = tmp_arr_order;
             tmp_arr_order += 1;
@@ -102,8 +104,8 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
 
 const create_a_node_with_children = (new_children, new_order, max_id) => {
   return {
-    type: 0,
     id: max_id.toString(),
+    type: 0,
     order: new_order,
     children: new_children,
   };
