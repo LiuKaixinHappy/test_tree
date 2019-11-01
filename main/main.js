@@ -26,7 +26,7 @@ const get_new_node_set = (question_tree_structure, step_teach_info) => {
                 id: child.id,
                 type: child.type,
                 is_only_child: curNode.children.length <= 1,
-                next_brother: curNode.children[index + 1] ? curNode.children[index + 1] : curNode.father ? curNode.father.next_brother.children.every(item => item.type === 1) ? curNode.father.next_brother : null : null,
+                next_brother: curNode.children[index + 1] ? curNode.children[index + 1] : null,
             };
             new_node_set.push(new_child_node);
             q.push(child);
@@ -91,24 +91,18 @@ const find_father_in_tree = (node_id, tree) => {
 };
 
 const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
-    console.log('94------------------',node_id);
     let father_next_brother_id = undefined
     for(let item of new_node_set){
         if (item.children_ids.includes(node_id)) {
-            father_next_brother_id = item.next_brother;
+            father_next_brother_id = item.next_brother.id;
             break;
         }
     }
-    // new_node_set.forEach(item => {
-        
-    // });
-    console.log('101--------------------',father_next_brother_id);
     const q = [];
     q.push(tree);
     while (q.length !== 0) {
         const curNode = q.shift();
         if (curNode.id === father_next_brother_id) {
-            // console.log(curNode);
             return curNode;
         }
         curNode.children.forEach(child => q.push(child));
@@ -212,7 +206,6 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                 father.children = new_children;
             } else {
                 // console.log('----------------------------', JSON.stringify(father));
-                const father_brother = find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure);
                 if (each.next_brother) {
                     for (const child of father.children) {
                         if (child.id === each.id) {
@@ -226,7 +219,8 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                         }
                     }
                     father.children = new_children;
-                } else if (father_brother.children.every(item => item.type === 1)) {
+                } else if (find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure).children.every(item => item.type === 1)) {
+                    const father_brother = find_father_next_brother_in_tree(each.id,new_node_set,question_tree_structure);
                     for (const child of father.children) {
                         if (child.id !== each.id) {
                             // continue;
