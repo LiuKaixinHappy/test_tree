@@ -149,9 +149,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
         question_tree_structure.children = new_children;
       }
     } else if (each.children_type === 1) {
-      console.log(each.id);
       const father = find_father_in_tree(each.id, question_tree_structure);
-      console.log(father.id);
       const new_children = [];
       // 如果有重要步骤
       if (each.important_children_ids.length > 0) {
