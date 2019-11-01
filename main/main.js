@@ -35,8 +35,7 @@ const get_new_node_set = (question_tree_structure, step_teach_info) => {
     return new_node_set;
 };
 
-const divide_children_by_important_step = (children_ids, important_children_ids, children, max_id) => {
-    console.log('----------------------', important_children_ids);
+const divide_children_by_important_step = (important_children_ids, children, max_id) => {
     const groups = [];
     let group_order = 1;
     let tmp_arr = [];
@@ -66,7 +65,6 @@ const divide_children_by_important_step = (children_ids, important_children_ids,
             group_order += 1;
         });
     }
-    console.log('*******************************', JSON.stringify(groups));
     return groups;
 };
 
@@ -111,11 +109,28 @@ const resetOrder = (tree) => {
 const main = (question_tree_structure, step_teach_info, max_structure_id) => {
   const new_node_set = get_new_node_set(question_tree_structure, step_teach_info);
   const created_thought_ids = [];
+  const step_list = ['1','2','3','4','5'];
+  console.log('--------------------------------',step_teach_info)
+  if(step_list.every(item => step_teach_info[item].is_important===false)){
+      // TODO 是否所有步骤都不是重要步骤
+      const temp_step_list = [];
+      question_tree_structure.children.forEach((item) => {
+        if(item.type === 0){
+            item.children.forEach(step => {
+                temp_step_list.push(step);
+            })
+        } else {
+            temp_step_list.push(item);
+        }
+      })
+      question_tree_structure.children = temp_step_list;
+      return resetOrder(question_tree_structure);
+  }
   for (const each of new_node_set) {
     if (each.id === '0') {
       // 1-都是步骤，0-都是思路，2-混合
       if (each.children_type === 1) {
-        question_tree_structure.children = divide_children_by_important_step(each.children_ids, each.important_children_ids, each.children, max_structure_id);
+        question_tree_structure.children = divide_children_by_important_step( each.important_children_ids, each.children, max_structure_id);
         max_structure_id += 1;
       } else if (each.children_type === 2) {
         let tmp_arr = [];
@@ -157,7 +172,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
         if (each.important_children_ids.length === 1 && each.important_children_ids[0] === each.children_ids[each.children_ids.length - 1]) {
           continue;
         }
-        const groups = divide_children_by_important_step(each.children_ids, each.important_children_ids, each.children, max_structure_id);
+        const groups = divide_children_by_important_step(each.important_children_ids, each.children, max_structure_id);
         console.log('groups', groups);
         created_thought_ids.push(max_structure_id);
         for (const child of father.children) {
@@ -181,8 +196,6 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
               new_children.push(child);
             }
           }
-        //   console.log('new brother*************',JSON.stringify(new_children))
-          console.log('who is father*************',JSON.stringify(father))
           father.children = new_children;
         } else {
           const arr = [];
