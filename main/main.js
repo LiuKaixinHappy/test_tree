@@ -37,9 +37,6 @@ const get_new_node_set = (question_tree_structure, step_teach_info) => {
 
 const divide_children_by_important_step = (children_ids, important_children_ids, children, max_id) => {
     console.log('----------------------', important_children_ids);
-    if (important_children_ids === children_ids[children_ids.length - 1]) {
-        return children;
-    }
     const groups = [];
     let group_order = 1;
     let tmp_arr = [];
@@ -125,6 +122,22 @@ const find_father_in_tree = (node_id, tree) => {
   return undefined;
 };
 
+const resetOrder = (tree) => {
+  const fn = (child) => {
+    if (!child.children) {
+      return;
+    }
+    child.children.map((item, i) => {
+      item.order = i + 1;
+      if (item.children.length > 0) {
+        fn(item);
+      }
+    });
+  };
+  fn(tree);
+  return tree;
+};
+
 const main = (question_tree_structure, step_teach_info, max_structure_id) => {
   const new_node_set = get_new_node_set(question_tree_structure, step_teach_info);
   const created_thought_ids = [];
@@ -172,6 +185,10 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
       const new_children = [];
       // 如果有重要步骤
       if (each.important_children_ids.length > 0) {
+        // 如果最后一步是隐藏步骤，其他都不是，跳出
+        if (each.important_children_ids.length === 1 && each.important_children_ids[0] === each.children_ids[each.children_ids.length - 1]) {
+          continue;
+        }
         const groups = divide_children_by_important_step(each.children_ids, each.important_children_ids, each.children, max_structure_id);
         console.log('groups', groups);
         created_thought_ids.push(max_structure_id);
@@ -184,7 +201,6 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
         }
         father.children = new_children;
       } else {
-        console.log('no important steps', each);
         if (each.next_brother) {
           for (const child of father.children) {
             if (child.id === each.id) {
@@ -211,7 +227,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
       }
     }
   }
-  return question_tree_structure;
+  return resetOrder(question_tree_structure);
 };
 
 module.exports = {main, divide_children_by_important_step};

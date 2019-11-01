@@ -463,8 +463,8 @@ describe('main()', () => {
     };
     const max_id = 7;
     const expected = JSON.stringify({
-      "type": 0,
       "id": "0",
+      "type": 0,
       "order": 1,
       "children": [
         {
@@ -500,13 +500,13 @@ describe('main()', () => {
             {
               "id": "4",
               "type": 1,
-              "order": 2,
+              "order": 1,
               "children": []
             },
             {
               "id": "5",
               "type": 1,
-              "order": 3,
+              "order": 2,
               "children": []
             }
           ]
