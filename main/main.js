@@ -26,7 +26,7 @@ const get_new_node_set = (question_tree_structure, step_teach_info) => {
                 id: child.id,
                 type: child.type,
                 is_only_child: curNode.children.length <= 1,
-                next_brother: curNode[index + 1] ? curNode[index + 1] : null,
+                next_brother: curNode.children[index + 1] ? curNode.children[index + 1] : null,
             };
             new_node_set.push(new_child_node);
             q.push(child);
@@ -169,13 +169,14 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
         }
         father.children = new_children;
       } else {
+          console.log('has brother----------',JSON.stringify(each))
         if (each.next_brother) {
           for (const child of father.children) {
             if (child.id === each.id) {
               continue;
             }
             if (child.id === each.next_brother.id) {
-              each.children.forEach(item => each.next_brother.splice(0, 0, item));
+              each.children.forEach((item,index) => each.next_brother.children.splice(index, 0, item));
               new_children.push(each.next_brother);
             } else {
               new_children.push(child);
@@ -190,7 +191,7 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
             }
           }
           father.children = arr;
-          each.children.forEach(item => question_tree_structure.push(item));
+          each.children.forEach(item => question_tree_structure.children.push(item));
         }
       }
     }
