@@ -36,70 +36,71 @@ const get_new_node_set = (question_tree_structure, step_teach_info) => {
 };
 
 const divide_children_by_important_step = (children_ids, important_children_ids, children, max_id) => {
-  if (important_children_ids[0] === children_ids[children_ids.length - 1]) {
-    return children;
-  }
-  const groups = [];
-  let group_order = 1;
-  let tmp_arr = [];
-  let tmp_arr_order = 1;
-  children.forEach((item) => {
-    item.order = tmp_arr_order;
-    tmp_arr_order += 1;
-    tmp_arr.push(item);
-    if (important_children_ids.includes(item.id)) {
-      groups.push(create_a_node_with_children(tmp_arr, group_order, max_id));
-      tmp_arr = [];
-      tmp_arr_order = 1;
-      group_order += 1;
+    console.log('----------------------', important_children_ids);
+    if (important_children_ids === children_ids[children_ids.length - 1]) {
+        return children;
     }
-  });
-  tmp_arr.forEach((item) => {
-    item.order = group_order;
-    groups.push(item);
-    group_order += 1;
-  });
-  // return groups;
-  return [
-    {
-      "id": "6",
-      "type": 0,
-      "order": 1,
-      "children": [
-        {
-          "id": "1",
-          "type": 1,
-          "order": 2,
-          "children": []
-        }, {
-          "id": "2",
-          "type": 1,
-          "order": 3,
-          "children": []
-        }, {
-          "id": "3",
-          "type": 1,
-          "order": 3,
-          "children": []
-        }]
-    },
-    {
-      "id": "7",
-      "type": 0,
-      "order": 1,
-      "children": [{
-        "id": "4",
-        "type": 1,
-        "order": 2,
-        "children": []
-      },
-        {
-          "id": "5",
-          "type": 1,
-          "order": 3,
-          "children": []
-        }]
-    }];
+    const groups = [];
+    let group_order = 1;
+    let tmp_arr = [];
+    let tmp_arr_order = 1;
+    children.forEach((item) => {
+        if (groups.length >= important_children_ids.length) {
+            groups.push(item);
+        } else {
+            item.order = tmp_arr_order;
+            tmp_arr_order += 1;
+            tmp_arr.push(item);
+            if (important_children_ids.includes(item.id)) {
+                groups.push(create_a_node_with_children(tmp_arr, group_order, max_id));
+                max_id += 1;
+                tmp_arr = [];
+                tmp_arr_order = 1;
+                group_order += 1;
+            }
+        }
+    });
+    if (groups.length === 0) {
+        tmp_arr.forEach((item) => {
+            item.order = group_order;
+            groups.push(item);
+            group_order += 1;
+        });
+    }
+    console.log('*******************************', JSON.stringify(groups));
+    return groups;
+    // return [{
+    //     "id": "6",
+    //     "type": 0,
+    //     "order": 1,
+    //     "children": [
+    //         {
+    //             "id": "1",
+    //             "type": 1,
+    //             "order": 2,
+    //             "children": []
+    //         }, {
+    //             "id": "2",
+    //             "type": 1,
+    //             "order": 3,
+    //             "children": []
+    //         }, {
+    //             "id": "3",
+    //             "type": 1,
+    //             "order": 3,
+    //             "children": []
+    //         }]
+    // },{
+    //     "id": "4",
+    //     "type": 1,
+    //     "order": 2,
+    //     "children": []
+    // },{
+    //     "id": "5",
+    //     "type": 1,
+    //     "order": 3,
+    //     "children": []
+    // }];
 };
 
 const create_a_node_with_children = (new_children, new_order, max_id) => {
