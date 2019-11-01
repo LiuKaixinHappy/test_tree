@@ -848,7 +848,7 @@ describe('main()', () => {
           "order": 1,
           "children": [
             {
-              "id": "8",
+              "id": "11",
               "type": 0,
               "order": 1,
               "children": [
@@ -857,21 +857,28 @@ describe('main()', () => {
                   "type": 1,
                   "order": 1,
                   "children": []
-                },
+                }]
+            },
+            {
+              "id": "12",
+              "type": 0,
+              "order": 2,
+              "children": [
                 {
                   "id": "2",
                   "type": 1,
-                  "order": 2,
+                  "order": 1,
                   "children": []
                 }]
-            }, {
+            },
+            {
               "id": "9",
               "type": 0,
-              "order": 2,
+              "order": 3,
               "children": [{
                 "id": "3",
                 "type": 1,
-                "order": 2,
+                "order": 1,
                 "children": []
               }]
             }]
@@ -997,7 +1004,7 @@ describe('main()', () => {
         {
           "id": "14",
           "type": 0,
-          "order": 2,
+          "order": 3,
           "children": [{
             "id": "5",
             "type": 1,
