@@ -91,18 +91,16 @@ const find_father_in_tree = (node_id, tree) => {
 };
 
 const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
-    console.log('94------------------',node_id);
-    let father_next_brother_id = undefined
+    let father_next_brother_id = undefined;
     for(let item of new_node_set){
         if (item.children_ids.includes(node_id)) {
-            father_next_brother_id = item.next_brother;
+            father_next_brother_id = item.next_brother.id;
             break;
         }
     }
     // new_node_set.forEach(item => {
         
     // });
-    console.log('101--------------------',father_next_brother_id);
     const q = [];
     q.push(tree);
     while (q.length !== 0) {
