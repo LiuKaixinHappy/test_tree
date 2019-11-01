@@ -107,14 +107,6 @@ const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
         } else if (curNode.id === father_next_brother_id && curNode.children.some(item => item.type === 0)) {
             return curNode.children[0];
         }
-        // fn = (node,father_id) => {
-        //     if (node.id === father_id && node.children.every(item => item.type === 1)) {
-        //         return node;
-        //     }else if (node.id === father_id && node.children.some(item => item.type === 0)){
-        //         fn(node.children[0],father_id)
-        //     }
-        // }
-        // fn(curNode,father_next_brother_id);
         curNode.children.forEach(child => q.push(child));
     }
     return undefined;
@@ -216,13 +208,26 @@ const main = (question_tree_structure, step_teach_info, max_structure_id) => {
                 father.children = new_children;
             } else {
                 // console.log('----------------------------', JSON.stringify(father));
-                if (each.next_brother) {
+                if (each.next_brother && each.next_brother.children.every(item => item.type === 1)) {
                     for (const child of father.children) {
                         if (child.id === each.id) {
                             continue;
                         }
                         if (child.id === each.next_brother.id) {
                             each.children.forEach((item, index) => each.next_brother.children.splice(index, 0, item));
+                            new_children.push(each.next_brother);
+                        } else {
+                            new_children.push(child);
+                        }
+                    }
+                    father.children = new_children;
+                } else if (each.next_brother && each.next_brother.children.some(item => item.type === 0)) {
+                    for (const child of father.children) {
+                        if (child.id === each.id) {
+                            continue;
+                        }
+                        if (child.id === each.next_brother.id) {
+                            each.children.forEach((item, index) => each.next_brother.children[0].children.splice(index, 0, item));
                             new_children.push(each.next_brother);
                         } else {
                             new_children.push(child);
