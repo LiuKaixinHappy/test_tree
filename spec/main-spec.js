@@ -1689,7 +1689,7 @@ describe('main()', () => {
         },
         {"id": "13",
           "type": 0,
-          "order": 1,
+          "order": 2,
           "children": [
             {
               "id": "10",
@@ -1816,7 +1816,7 @@ describe('main()', () => {
         },
         {"id": "13",
           "type": 0,
-          "order": 1,
+          "order": 2,
           "children": [
             {
               "id": "10",
