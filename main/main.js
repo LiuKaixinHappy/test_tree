@@ -91,7 +91,7 @@ const find_father_in_tree = (node_id, tree) => {
 };
 
 const find_father_next_brother_in_tree = (node_id, new_node_set, tree) => {
-    let father_next_brother_id = undefined
+    let father_next_brother_id = undefined;
     for(let item of new_node_set){
         if (item.children_ids.includes(node_id)) {
             father_next_brother_id = item.next_brother.id;

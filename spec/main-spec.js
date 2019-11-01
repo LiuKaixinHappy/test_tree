@@ -74,10 +74,10 @@ describe('main()', () => {
         "order": 3,
         "children": []
       }]);
-
+  
     expect(JSON.stringify(main.divide_children_by_important_step(important_children_ids, children, max_id))).toBe(expected);
   });
-
+  
   it('测试divide_children_by_important_step------2', () => {
     const max_id = 6;
     const children_ids = ["1", "2", "3", "4", "5"];
@@ -154,10 +154,10 @@ describe('main()', () => {
             "children": []
           }]
       }]);
-
+  
     expect(JSON.stringify(main.divide_children_by_important_step(important_children_ids, children, max_id))).toBe(expected);
   });
-
+  
   it('测试divide_children_by_important_step------3', () => {
     const max_id = 6;
     const children_ids = ["1", "2", "3", "4", "5"];
@@ -234,10 +234,10 @@ describe('main()', () => {
         "order": 3,
         "children": []
       }]);
-
+  
     expect(JSON.stringify(main.divide_children_by_important_step(important_children_ids, children, max_id))).toBe(expected);
   });
-
+  
   it('根节点+一个中间重要步骤，应该生成思路+步骤节点', () => {
     const question_tree_structure = {
       "type": 0,
@@ -371,10 +371,10 @@ describe('main()', () => {
         }
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('根节点+2个中间重要步骤，应该生成思路+思路', () => {
     const question_tree_structure = {
       "id": "0",
@@ -511,10 +511,10 @@ describe('main()', () => {
         },
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('2-true, 3-true, 5-true', () => {
     const question_tree_structure = {
       "id": "0",
@@ -663,10 +663,10 @@ describe('main()', () => {
         },
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('带子思路的进一步拆分(1-true, 2-true, 3-true, 5-true)', () => {
     const question_tree_structure = {
       "id": "0",
@@ -832,10 +832,10 @@ describe('main()', () => {
         },
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('带子思路的进一步拆分(1-true, 2-true, 3-true, 4-true，5-true)', () => {
     const question_tree_structure = {
       "id": "0",
@@ -1014,10 +1014,10 @@ describe('main()', () => {
         }
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('根节点+2个中间重要步骤+思路中两个重要步骤，应该生成思路+思路+思路', () => {
     const question_tree_structure = {
       "id": "0",
@@ -1166,10 +1166,10 @@ describe('main()', () => {
         },
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('2个底层思路中去掉上方顶层思路中的重要步骤，应该合并为一个子思路', () => {
     const question_tree_structure = {
       "id": "0",
@@ -1332,10 +1332,10 @@ describe('main()', () => {
         },
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
-
+  
   it('去掉最后一个关键步骤后树里边只剩下步骤', () => {
     const question_tree_structure = {
       "id": "0",
@@ -1458,7 +1458,7 @@ describe('main()', () => {
         },
       ]
     });
-
+  
     expect(JSON.stringify(main.main(question_tree_structure, step_teach_info, max_id))).toBe(expected);
   });
 
